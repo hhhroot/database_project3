@@ -1,0 +1,137 @@
+.signup_container {
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+  width: 600px;
+  height:400px;
+  margin: 50px auto 142px auto;
+}
+
+#popupDom{
+  width:0px;
+  height: 0px;
+  position: absolute;
+  top: 32%;
+  right: 32%;
+}
+
+.postCode_btn{  
+  z-index:15;
+  position:relative;
+  top: 9px;
+  right: 80px;
+  opacity: 1;
+  width:30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+  font-size:30px;
+  line-height: 23px;
+}
+
+.signup_table th{
+  width: 200px;
+  padding-left:20px;
+  text-align: center;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+.signup_table th, td{
+  padding-top:15px;
+  
+}
+
+.signup_table {
+  margin:0 auto;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+input {
+  width: 150px;
+}
+
+.phone_numbers{
+  width:60px;
+}
+
+.user_email{
+  width: 250px;
+}
+
+.signup_btn{
+  width: 150px;
+  height: 50px; 
+  color: white;
+  background-color: darkslategray;
+  border: none;
+  margin-left: 225px;
+}
+
+#post_search{
+  width: 50px;
+  color: white;
+  background-color: darkslategray;
+  border: none;
+  margin-left: 10px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+#postcode {
+  width: 60px;
+}
+
+#full_address {
+  width: 400px;
+  margin-bottom: 10px;
+}
+
+.signup_success_box {
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+  height: 300px;
+  max-height: 70vh;
+  margin-top: calc(100vh - 85vh - 40px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+
+.popup_box {
+  position: fixed;
+  background: #00000050;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.signup_message {
+  margin: 0 auto;
+  margin-top:80px;
+  display: block;
+  text-align: center;
+  font-size:25px;
+}
+
+.link_btn {
+  margin: 0px;
+  display: inline-block;
+  text-align: center;
+  line-height: 48px;
+  text-decoration: none;
+}
+
+.link_btn:hover {
+  color: white;
+}
+
+.page_title {
+  text-align: center;
+  margin-top: 50px;
+}

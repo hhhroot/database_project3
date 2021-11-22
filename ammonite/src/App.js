@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link , Routes} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+
+import { Main, Login, Reserve, SignUp, TransitionInfo, UserInfo, VacineInfo, ViewReserve} from './pages/index';
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Nav/>
+        <Link to="/reserve">Reserve</Link>&nbsp;&nbsp;&nbsp;
+        <Link to="/transition">TransitionInfo</Link>&nbsp;&nbsp;&nbsp;
+        <Link to="/info">UserInfo</Link>&nbsp;&nbsp;&nbsp;
+        <Link to="/vacine">VacineInfo</Link>&nbsp;&nbsp;&nbsp;
+        <Link to="/transition_info">ViewReserve</Link>&nbsp;&nbsp;&nbsp;
+
+        <Routes>
+          <Route exact path="/" element ={<Main/>}/> 
+          <Route exact path="/signup" element ={<SignUp/>}/> 
+          <Route exact path="/login" element ={<Login/>}/> 
+          <Route exact path="/reserve" element ={<Reserve/>}/> 
+          <Route exact path="/transition" element ={<TransitionInfo/>}/> 
+          <Route exact path="/info" element ={<UserInfo/>}/> 
+          <Route exact path="/vacine" element ={<VacineInfo/>}/> 
+          <Route exact path="/transition_info" element ={<ViewReserve/>}/> 
+        </Routes>
+        <Footer/>
+      </Router>
+    )
+  }
 }
 
 export default App;
