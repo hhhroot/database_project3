@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createUser } from "../actions/members";
+import { createUser, loginUser } from "../actions/members";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
 
@@ -19,6 +19,7 @@ class SignUp extends Component {
 
         this.saveUser = this.saveUser.bind(this);
         this.clearInput = this.clearInput.bind(this);
+        this.loginUserBtn = this.loginUserBtn.bind(this);
 
         this.state = {
             name: "",
@@ -144,6 +145,28 @@ class SignUp extends Component {
       })
     }
 
+    loginUserBtn(){
+      const name = this.state.name;
+      const RRN1 = this.state.RRN1;
+      const RRN2 = this.state.RRN2;
+  
+      this.props
+        .loginUser(name, RRN1, RRN2)
+        .then((data) => {
+          // 성공시 토큰을 sessionStorage 저장
+          if (data.token){
+            sessionStorage.setItem("token", data.token);
+            window.location.href = "/reserve";
+          }
+          else {
+            this.setState({error: true});
+          }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }
+
     render() {
         return (
           <div>
@@ -157,7 +180,7 @@ class SignUp extends Component {
                     <p className="signup_message">가입이 완료되었습니다.</p>
                     
                     {/* 로그인 처리 */}
-                    <Link to="/" className="signup_btn link_btn" style={{margin: "50px 0 0 150px"}}>백신 예약하기</Link>
+                    <button className="signup_btn" onClick={this.loginUserBtn} style={{margin: "50px 0 0 150px"}}>백신 예약하기</button>
                   </div>
                 </div>) : 
 
@@ -171,8 +194,8 @@ class SignUp extends Component {
                     <div style={{margin: "50px 0 0 60px"}}>
                       <button className="signup_btn" onClick={this.clearInput} style={{margin: "0 40px 0 0"}}>다시 입력하기</button>
                     
-                      {/* 로그인 처리 */}
-                      <Link to="/" className="signup_btn link_btn">백신 예약하기</Link>
+                      <Link to="/login" className="signup_btn link_btn">백신 예약하기</Link>
+
                     </div>
                   </div>
                 </div>) : ''
@@ -236,4 +259,4 @@ class SignUp extends Component {
     }
 }
 
-export default connect(null, {createUser})(SignUp);
+export default connect(null, {createUser, loginUser})(SignUp);
