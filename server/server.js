@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { auth } = require('./authMiddleware');
+const sha256 = require('js-sha256');
 
 const app = express();
 const mysql = require('mysql');
@@ -31,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // API
 app.post("/members", (req, res) => {  
-  const RRN = req.body["RRN1"] + "-" + req.body["RRN2"];
+  const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
   const phone = req.body["phone1"] + "-" + req.body["phone2"] + "-" + req.body["phone3"];
 
   const datas = [req.body["name"], RRN, req.body["foreigner"], req.body["Bdate"], req.body["gender"], phone];
@@ -67,7 +68,7 @@ app.get("/members", function(req, res){
 });
 
 app.post("/login", (req, res) => {
-  const RRN = req.body["RRN1"] + "-" + req.body["RRN2"];
+  const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
   
   const datas = [req.body["name"], RRN];
 
@@ -75,7 +76,7 @@ app.post("/login", (req, res) => {
     type: 'JWT',
     RRN: RRN,
     name: req.body["name"],
-  }, "SECRET_KEY", {
+  }, process.env.SECRET_KEY, {
     // expiresIn: '5m',
   });
 
@@ -99,7 +100,6 @@ app.post("/login", (req, res) => {
 
 app.get("/info", auth, (req, res) => {
   const datas = [req.decoded.name, req.decoded.RRN]
-
   pool.getConnection((err, connection) => {
     const sqlForUserInfo = "SELECT name, phone, first, second FROM user WHERE name=? AND RRN=?";
     connection.query(sqlForUserInfo, datas, (err, rows) => {
