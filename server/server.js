@@ -115,6 +115,64 @@ app.get("/info", auth, (req, res) => {
   })
 })
 
+app.post("/auth", (req, res) => {
+  const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
+  pool.getConnection((err, connection) => {
+    const sqlForAuth = "SELECT * FROM user WHERE name=? AND RRN=?";
+    connection.query(sqlForAuth, [req.body.name, RRN], (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({ message: "server_error" });
+      } else {
+        if (rows.length == 0)
+          res.json({ message: "auth_fail", code: -1})
+        else
+          res.json({ message: "auth_seccess", code: 1});
+      }
+    })
+  })
+});
+
+app.delete("/members", auth, (req, res) => {
+  pool.getConnection((err, connection) => {
+    const sqlForDelete = "DELETE FROM user WHERE RRN=?";
+    connection.query(sqlForDelete, [req.decoded.RRN], (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({ message: "server_error" });
+      } else {
+        res.json({ message: "delete_success"});
+      }
+    })
+  })
+})
+
+app.put("/members", auth, (req, res) => {
+  const RRN = req.decoded.RRN;
+  const phone = req.body["phone1"] + "-" + req.body["phone2"] + "-" + req.body["phone3"];
+
+  pool.getConnection((err, connection) => {
+    const sqlForUpdate = "UPDATE user SET name=?, phone=? WHERE rrn=?";
+    connection.query(sqlForUpdate, [req.body.name, phone, RRN], (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({message: "update_error"});
+      } else {
+        // jwt의 특성상 update시 새로 발급해 줘야 함
+        const token = jwt.sign({
+          type: 'JWT',
+          RRN: RRN,
+          name: req.body["name"],
+        }, process.env.SECRET_KEY, {
+        });
+
+        res.json({message: "update_success", token: token});
+      }
+    })
+  })
+
+})
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

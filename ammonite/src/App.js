@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link , Routes} from "react-rout
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 
-import { Main, Login, Reserve, SignUp, TransitionInfo, UserInfo, VacineInfo, ViewReserve} from './pages/index';
+import { Main, Login, Reserve, SignUp, TransitionInfo, UserInfo, VacineInfo, ViewReserve, UserUpdate} from './pages/index';
 
 class App extends Component {
   render() {
@@ -28,6 +28,7 @@ class App extends Component {
           <Route exact path="/info" element ={<UserInfo/>}/> 
           <Route exact path="/vacine" element ={<VacineInfo/>}/> 
           <Route exact path="/transition_info" element ={<ViewReserve/>}/> 
+          <Route exact path="/update" element = {<UserUpdate/>}/>
         </Routes>
         <Footer/>
       </Router>

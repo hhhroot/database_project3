@@ -13,16 +13,20 @@ class memberDateService {
         return http.post("/members", data);
     }
 
-    update(username, data){
-        return http.put(`/members/${username}`, data);
+    update(data){
+        return http.put(`/members`, data);
     }
 
-    delete(username) {
-        return http.delete(`/members/${username}`);
+    delete() {
+        return http.delete(`/members`);
     }
 
     login(data) {
         return http.post("/login", data);
+    }
+
+    auth(data) {
+        return http.post("/auth", data);
     }
 }
 
