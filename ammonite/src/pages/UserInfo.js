@@ -22,6 +22,7 @@ class UserInfo extends Component {
     this.onChangeRRN2 = this.onChangeRRN2.bind(this);
     this.updateButton = this.updateButton.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
+    this.clearInput = this.clearInput.bind(this);
   }
 
   componentDidMount(){
@@ -57,7 +58,9 @@ class UserInfo extends Component {
     this.props
       .authUser(this.state.RRN1, this.state.RRN2, this.state.name)
       .then((data) => {
-        window.location.href = "/update";
+        if(data.code == 1)
+          window.location.href = "/update";
+        else this.setState({error: true});
       })
       .catch((e) => {
         console.log(e);
@@ -84,12 +87,22 @@ class UserInfo extends Component {
     this.setState({
       RRN1: "",
       RRN2: "",
+      error: false,
     })
   }
   
   render(){
     return(
       <div>
+        {this.state.error ? (
+                <div className="popup_box">
+                  <div className="signup_success_box">
+                    <p className="signup_message">주민등록번호를 다시 확인 해 주세요</p>
+                    
+                    <button className="signup_btn" onClick={this.clearInput} style={{margin: "50px 0 0 150px"}}>확인</button>
+                  </div>
+                </div>)
+        : ""}
         <h2 className="page_title">내 정보</h2>
         <div className="signup_container" style={{width: "800px", height: "580px"}}>
           <table className="signup_table">

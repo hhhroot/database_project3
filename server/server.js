@@ -42,6 +42,7 @@ app.post("/members", (req, res) => {
     const sqlForCreateUser = "INSERT INTO user(name, RRN, foreigner, Bdate, gender, phone) values(?, ?, ?, ?, ?, ?)";
     if (err){
       console.log(err);
+      res.json({ message: "server_error "});
     }
     connection.query(sqlForCreateUser, datas, function(err, rows){
       if (err) {

@@ -8,7 +8,7 @@ class UserUpdate extends Component {
 
     this.state = {
       name : "",
-      phone1: "",
+      phone1: "010",
       phone2: "",
       phone3: "",
     }
@@ -29,7 +29,6 @@ class UserUpdate extends Component {
         this.setState(
           {
             name: data["name"],
-            phone1: phones[0],
             phone2: phones[1],
             phone3: phones[2],
           })
@@ -87,12 +86,12 @@ class UserUpdate extends Component {
               <th>휴대전화</th>
               <td>
                 <select name="phone_number1" style={{height:30}} onChange={this.onChangePhone1}>
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="016">016</option>
-                <option value="017">017</option>
-                <option value="018">018</option>
-                <option value="019">019</option>
+                  <option value="010">010</option>
+                  <option value="011">011</option>
+                  <option value="016">016</option>
+                  <option value="017">017</option>
+                  <option value="018">018</option>
+                  <option value="019">019</option>
                 </select>
                 &nbsp;-&nbsp;<input className="phone_numbers" name="phone_number2" type="text" maxLength="4" value={this.state.phone2} onChange={this.onChangePhone2}></input>
                 &nbsp;-&nbsp;<input className="phone_numbers" name="phone_number3" type="text" maxLength="4" value={this.state.phone3} onChange={this.onChangePhone3}></input>              
