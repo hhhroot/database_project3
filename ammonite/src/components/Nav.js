@@ -1,6 +1,8 @@
 import { Component } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { infoUser } from "../actions/members";
 
 class Nav extends Component{
   constructor(props){
@@ -14,13 +16,17 @@ class Nav extends Component{
   }
   
   getName(){
-    const jwt = require("jsonwebtoken");
-    const token = sessionStorage.getItem("token");
-    if (token){
-      this.setState({
-        name: jwt.decode(token, 'SECRET_KEY')["name"],
+    this.props
+      .infoUser()
+      .then((data) => {
+        this.setState(
+          {
+            name: data["name"],
+          })
       })
-    }
+      .catch((e) => {
+          console.log(e);
+      });
   }
 
   logout(){
@@ -33,6 +39,11 @@ class Nav extends Component{
       <header>
         <nav className="nav">
           <Link className="nav_title" to="/">AMMONITE</Link>
+            <div className="nav_bar" style={{marginLeft: "200px"}}>
+              <Link className="info navs" to="/reserve">백신 예약하기</Link>
+              <Link className="info navs" to="/vacine">백신 정보</Link>
+              <Link className="info navs" to="/transition">추이현황</Link>
+            </div>
             {
               this.state.name != "" ? 
               (
@@ -48,7 +59,7 @@ class Nav extends Component{
                   <Link className="signup navs" to="/signup">회원가입</Link>
                   <Link className="login navs" to="/login">로그인</Link>
                 </div>
-              ) 
+              )
             }
         </nav>
       </header>
@@ -56,4 +67,4 @@ class Nav extends Component{
   }
 }
 
-export default Nav;
+export default connect(null, {infoUser})(Nav);

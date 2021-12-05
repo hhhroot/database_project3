@@ -13,12 +13,6 @@ class App extends Component {
     return (
       <Router>
         <Nav/>
-        <Link to="/reserve">Reserve</Link>&nbsp;&nbsp;&nbsp;
-        <Link to="/transition">TransitionInfo</Link>&nbsp;&nbsp;&nbsp;
-        <Link to="/info">UserInfo</Link>&nbsp;&nbsp;&nbsp;
-        <Link to="/vacine">VacineInfo</Link>&nbsp;&nbsp;&nbsp;
-        <Link to="/transition_info">ViewReserve</Link>&nbsp;&nbsp;&nbsp;
-
         <Routes>
           <Route exact path="/" element ={<Main/>}/> 
           <Route exact path="/signup" element ={<SignUp/>}/> 
