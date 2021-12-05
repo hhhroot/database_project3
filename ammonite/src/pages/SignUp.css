@@ -94,7 +94,7 @@ input {
   margin: 0 auto;
   height: 300px;
   max-height: 70vh;
-  margin-top: calc(100vh - 85vh - 40px);
+  margin-top: calc(100vh - 65vh - 40px);
   background: #fff;
   border-radius: 4px;
   padding: 20px;
