@@ -28,6 +28,8 @@ class Reserve extends Component {
 
       first: true,
       second: false,
+
+      login: true,
     }
 
     this.calendarNextButton = this.calendarNextButton.bind(this);
@@ -36,6 +38,7 @@ class Reserve extends Component {
     this.onChangeLocation1 = this.onChangeLocation1.bind(this);
     this.onChangeLocation2 = this.onChangeLocation2.bind(this);
     this.onChangeLocation3 = this.onChangeLocation3.bind(this);
+    this.errorClear = this.errorClear.bind(this);
 
     this.onClickHospital = this.onClickHospital.bind(this);
 
@@ -65,6 +68,10 @@ class Reserve extends Component {
         }
       })
       .catch((e) => {
+        //login 안했을 때
+        this.setState({
+          login: false,
+        })
         console.log(e)
       });
   }
@@ -175,6 +182,12 @@ class Reserve extends Component {
     this.props.setStoreLocation3("");
   }
 
+  errorClear() {
+    this.setState({
+      error: false,
+    })
+  }
+
   Reserve(){
     const date = `${this.props.storeYear}-${this.props.storeMonth + 1}-${this.props.storeDay}`;
 
@@ -220,6 +233,29 @@ class Reserve extends Component {
           </div>
         </div>
         ) : ""}
+
+        {this.state.error ? (
+          <div className="popup_box">
+          <div className="signup_success_box">
+            <p className="signup_message">모든 값을 제대로 선택 해 주세요.</p>
+            <div style={{margin: "50px 0 0 60px"}}>
+            <button className="signup_btn" onClick={this.errorClear} style={{margin: "0 0 0 90px"}}>확인</button>
+            </div>
+          </div>
+        </div>
+        ) : ""}
+
+        {this.state.login ? "" : (
+            <div className="popup_box">
+            <div className="signup_success_box">
+              <p className="signup_message">로그인되어 있지 않습니다.</p>
+              <div style={{margin: "50px 0 0 60px"}}>
+              <Link to="/login" className="signup_btn link_btn" style={{margin: "0 40px 0 90px"}}>로그인</Link>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <h2 className="page_title">백신 예약{this.state.first ? " (1차)" : " (2차)"}</h2>
         <div className="main_container" style={{display: "block", paddingTop: "10px", paddingBottom: "30px"}}>
           <div id="area">
