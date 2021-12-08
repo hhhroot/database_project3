@@ -217,7 +217,6 @@ app.get('/reserve/hospital/vacine', (req, res) => {
 });
 
 app.post('/reserve', auth, (req, res) => {
-  console.log(req.body);
   const data = [req.decoded.RRN, req.body.h_id, req.body.date, req.body.time, req.body.v_name, req.decoded.RRN];
   let number = 0;
 

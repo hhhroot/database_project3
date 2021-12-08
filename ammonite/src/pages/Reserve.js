@@ -6,7 +6,8 @@ import VacineItem from "../components/VacineItem";
 import hangjungdong from "../datas/hangjungdong"
 import { connect } from "react-redux";
 import { setLocation3, setYearMonth, selectHospital, setDay, getHospitalList, reserve } from '../actions/reserve';
-
+import { infoUser } from "../actions/members"
+import { Link } from "react-router-dom";
 
 class Reserve extends Component {
   constructor(props){
@@ -26,6 +27,7 @@ class Reserve extends Component {
       success: false,
 
       first: true,
+      second: false,
     }
 
     this.calendarNextButton = this.calendarNextButton.bind(this);
@@ -46,7 +48,25 @@ class Reserve extends Component {
     this.props.setStoreYearMonth(today.getFullYear(), today.getMonth())
 
     // 1차 예약되있는지 확인
-    
+    this.props
+      .infoUser()
+      // 1차만 했을 때
+      .then((data) => {
+        if (data["first"]){
+          this.setState({
+            first: false,
+          })
+        }
+        // 2차까지 예약 다 했을 때
+        if (data["second"]){
+          this.setState({
+            second: true,
+          })
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+      });
   }
 
   getLastDateOfMonth(year, month) {
@@ -165,9 +185,10 @@ class Reserve extends Component {
       const vacineName = this.props.storeVacineList[this.props.storeSeletedVacine].v_name;
       const vacineTime = this.props.storeVacineList[this.props.storeSeletedVacine].time;
 
-      // 1차인지 2차인지 적어주기..
+      const number = this.state.first ? 1 : 2;
+
       this.props
-        .reserve(hospitalID, vacineName, vacineTime, date, 1)
+        .reserve(hospitalID, vacineName, vacineTime, date, number)
         .then((data) => {
           this.setState({
             success: true,
@@ -176,6 +197,9 @@ class Reserve extends Component {
         .catch((e) => {
           console.log(e);
         })
+
+      this.clearDatas();
+      window.location.href = "/";
     } else {
       this.setState({error: true});
     }
@@ -184,7 +208,19 @@ class Reserve extends Component {
   render(){
     return(
       <div>
-        <h2 className="page_title">백신 예약</h2>
+        {this.state.second ? (
+          <div className="popup_box">
+          <div className="signup_success_box">
+            <p className="signup_message">이미 2차 백신까지 예약을 완료 하셨습니다.</p>
+            <div style={{margin: "50px 0 0 60px"}}>
+              <Link to="/" className="signup_btn link_btn" style={{margin: "0 40px 0 0"}}>홈으로</Link>
+              <Link to="/info" className="signup_btn link_btn">내 정보</Link>
+
+            </div>
+          </div>
+        </div>
+        ) : ""}
+        <h2 className="page_title">백신 예약{this.state.first ? " (1차)" : " (2차)"}</h2>
         <div className="main_container" style={{display: "block", paddingTop: "10px", paddingBottom: "30px"}}>
           <div id="area">
             <div>
@@ -282,6 +318,7 @@ const mapDispatchToProps = (dispatch) => ({
   setStoreDay: (value) => dispatch(setDay(value)),
   setStoreHospitalList: (name, date) => dispatch(getHospitalList(name, date)),
   reserve: (hospitalID, vacineName, vacineTime, date, number) => dispatch(reserve(hospitalID, vacineName, vacineTime, date, number)),
+  infoUser: () => dispatch(infoUser()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reserve);
