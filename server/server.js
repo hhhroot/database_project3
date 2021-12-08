@@ -15,6 +15,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  multipleStatements: true,
 });
 
 var corsOptions = {
@@ -171,8 +172,71 @@ app.put("/members", auth, (req, res) => {
       }
     })
   })
-
 })
+
+
+// Reserve
+app.post("/reserve/hospital", (req, res) => {
+  const data = [req.body.date, req.body.location3]
+
+  // limit -> for pagination
+  pool.getConnection((err, connection) => {
+    const sqlForHospitalList = `select DISTINCT h.h_id, h.name, h.address
+    from hospital as h, location_lv3 as l3, hospital_date as hd
+    where l3.name = h.location_lv3_name and hd.h_id = h.h_id and date=? and l3.name = ? and count > 0
+    limit 5;`
+
+    connection.query(sqlForHospitalList, data, (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({message: "database_error"});
+      } else {
+        res.json({message: "success", hospitalList: rows})
+      }
+    })
+  })
+});
+
+app.get('/reserve/hospital/vacine', (req, res) => {
+  const data = [req.query.h_id, req.query.date];
+
+  pool.getConnection((err, connection) => {
+    const sqlForVacineList = `select time, v_name
+    from hospital_date
+    where h_id = ? and date= ? and count > 0;`;
+
+    connection.query(sqlForVacineList, data, (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({message: "database_error"});
+      } else {
+        res.json({message: "success", vacineList: rows})
+      }
+    })
+  })
+});
+
+app.post('/reserve', auth, (req, res) => {
+  console.log(req.body);
+  const data = [req.decoded.RRN, req.body.h_id, req.body.date, req.body.time, req.body.v_name, req.decoded.RRN];
+  let number = 0;
+
+  if (req.body.number == 1) number = "first"
+  else number = "second";
+
+  pool.getConnection((err, connection) => {
+    const sqlForReserve = `insert into reserve value (NULL, ?, ?, ?, ?, ?, 0); update user set ${number} = last_insert_id() where rrn = ?;`;
+
+    connection.query(sqlForReserve, data, (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.json({message: "database_error"});
+      } else {
+        res.json({message: "success"});
+      }
+    })
+  })
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

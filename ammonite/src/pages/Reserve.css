@@ -1,0 +1,194 @@
+/* area */
+#area {
+  width:1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+
+  padding: 30px;
+  border-bottom: 2px solid #999;
+}
+
+#area select {
+  width: 230px;
+  padding: 5px;
+  border: 1px solid #999;
+
+  border-radius: 0px;
+  -webkit-appearance: none;
+  text-align:center;
+}
+
+/* calendar */
+#calendar_term {
+  
+}
+
+#calendar_date {
+  width: 500px;
+  text-align: center;
+  padding:0 20px 20px 20px;
+  font-size: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#calendar_date button{
+  background: none;
+  border: none;
+  padding: 0 20px;
+}
+
+#calendar_table {
+  width: 500px;
+  height: 350px;
+  text-align: center;
+}
+
+#day_title{
+  height: 30px;
+  vertical-align: middle;
+}
+
+#calendar_table td {
+  width: calc(100%/7);
+  font-weight: 550;
+  border: 1px solid black;
+  height: 50px;
+  padding-top: 0;
+}
+
+#day_title td {
+  height: 30px;
+}
+
+#calendar_table td:first-child {
+  color: red;
+}
+
+#calendar_table td:last-child {
+  color: blue;
+}
+
+.day_box {
+  width: 45px;
+  height: 45px;
+  margin: auto;
+  line-height: 45px;
+  border-radius: 50%;
+}
+
+.day_box:hover {
+  background-color: gainsboro;
+}
+
+/* hospital */
+#hospital_date {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#hospital_cotainer {
+  width: 660px;
+  display:flex;
+  height:357px;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+#hospital_list {
+  width: 170px;
+  border: 1px solid black;
+  height: 300px;
+  padding: 5px;
+  padding-bottom: 0;
+}
+
+#reserve_time_container {
+  width: 452px;
+  border:1px solid black;
+  height:300px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#reserve_hospital span{
+  font-size: 24px;
+}
+
+.hospital {
+  border: 1px solid black;
+  margin-bottom: 6px;
+  height:49px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.reserver_hospital_title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.reserve_time {
+  border: 1px solid black;
+  margin: 5px;
+  width: 65px;
+  height: 50px;
+  text-align: center;
+  display: inline-block;
+}
+
+.hospital_name {
+  font-size: 12px;
+  text-align: center;
+}
+
+.hospital_address {
+  font-size: 10px;
+  text-align: center;
+}
+
+#hospital_button_container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#hospital_button_container button {
+  background: none;
+  border: none;
+  margin: 0;
+}
+
+.day_box_selected {
+  background-color: antiquewhite !important;
+}
+
+.detail_page {
+  position: relative;
+  left: 140px;
+  top: -13px;
+  font-size: 20px;
+  font-weight: 700;
+  width: 0;
+  height: 0;
+}
+
+.hospital:hover {
+  background-color: gainsboro;
+}
+
+.hospital_selected {
+  background: antiquewhite !important;
+}
+
+.reserve_time:hover {
+  background-color: gainsboro;
+}
+
+.reserve_time_selected {
+  background: antiquewhite !important;
+}
