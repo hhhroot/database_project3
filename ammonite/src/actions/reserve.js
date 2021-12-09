@@ -27,6 +27,7 @@ export const getHospitalVacine = (h_id, date) => async (dispatch) => {
       payload: res.data,
     })
 
+    return Promise.resolve(res.data);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -38,6 +39,21 @@ export const reserve = (h_id, v_name, time, date, number) => async (dispatch) =>
 
     dispatch ({
       type: RESERVE_USER,
+      payload: res.data,
+    })
+
+    return Promise.resolve(res.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+}
+
+export const getReserve = (first, second) => async (dispatch) => {
+  try {
+    const res = await reserveDataService.getReserve(first, second);
+
+    dispatch({
+      type: CHECK_RESERVE,
       payload: res.data,
     })
 

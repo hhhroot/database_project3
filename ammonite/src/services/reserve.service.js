@@ -7,8 +7,8 @@ class reserveDataService{
   }
   
   // 예약 정보 가져오기
-  getReserve() {
-    return http.get("/reserve");
+  getReserve(first, second) {
+    return http.get(`/reserve?first=${first}&second=${second}`);
   }
 
   // 예약하기

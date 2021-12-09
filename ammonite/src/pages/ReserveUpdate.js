@@ -9,7 +9,7 @@ import { setLocation3, setYearMonth, selectHospital, setDay, getHospitalList, re
 import { infoUser } from "../actions/members"
 import { Link } from "react-router-dom";
 
-class Reserve extends Component {
+class ReserveUpdate extends Component {
   constructor(props){
     super(props);
 
@@ -25,11 +25,6 @@ class Reserve extends Component {
       detailPage: false,
       error: false,
       success: false,
-
-      first: true,
-      second: false,
-
-      login: true,
     }
 
     this.calendarNextButton = this.calendarNextButton.bind(this);
@@ -212,9 +207,7 @@ class Reserve extends Component {
         })
 
       this.clearDatas();
-      if (this.state.first) window.location.href = "/reserve";
-      else window.location.href = "/info";
-
+      window.location.href = "/";
     } else {
       this.setState({error: true});
     }
@@ -359,4 +352,4 @@ const mapDispatchToProps = (dispatch) => ({
   infoUser: () => dispatch(infoUser()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reserve);
+export default connect(mapStateToProps, mapDispatchToProps)(ReserveUpdate);

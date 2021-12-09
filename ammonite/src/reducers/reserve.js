@@ -58,6 +58,12 @@ function reserveReducer(state = initialState, action) {
         seletedVacine: action.seletedVacine,
       }
 
+    case CHECK_RESERVE:
+      return {
+        ...state,
+        data: action.payload.data,
+      }
+
     default:
       return state;
   }

@@ -6,4 +6,31 @@
   border: 1px solid black;
   width: 500px;
   height: 150px;
+  padding: 15px;
+}
+
+.pb15 {
+  padding-bottom: 15px;
+}
+
+.reserve_info_table td {
+  padding-top: 5px !important;
+}
+
+.vacine_btn {
+  border: 1px solid black;
+  color: white;
+  display: block;
+  width: 100px;
+  height: 40px;
+}
+
+.update {
+  background-color: darkslategray;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.cancel {
+  background-color: red;
 }

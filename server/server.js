@@ -237,6 +237,33 @@ app.post('/reserve', auth, (req, res) => {
   })
 });
 
+app.get("/reserve", auth, (req, res) => {
+  const data = [req.decoded.RRN, req.query.first, req.query.second];
+
+  // 둘 다 null일 경우
+  if (req.body.first == 'null' && req.body.second == 'null'){
+    res.json({message: "data가 존재하지 않습니다."})
+    return;
+  }
+
+  pool.getConnection((err, connection) => {
+    const sqlForGetReserve = `SELECT reserve_id, date, time, v_name, h.name, address
+    FROM user as u, reserve as r, hospital as h
+    WHERE RRN=? AND r.h_id = h.h_id AND (r.reserve_id = ? OR r.reserve_id = ?)
+    ORDER BY r.date;`
+
+    connection.query(sqlForGetReserve, data, (err, rows) => {
+      if (err) {
+        console.log(err);
+        res,json({message: "database_error"});
+      } else {
+        res.json({messsage: "success", data:rows});
+      }
+    })
+  })
+
+})
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

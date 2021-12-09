@@ -1,6 +1,9 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { infoUser, authUser, deleteUser } from "../actions/members";
+import { getReserve } from "../actions/reserve";
+import ReserveInfo from "../components/ReserveInfo"
+
 import "./UserInfo.css";
 
 class UserInfo extends Component {
@@ -16,6 +19,9 @@ class UserInfo extends Component {
       RRN1: "",
       RRN2: "",
       error: false,
+
+      firstInfo: {},
+      secondInfo: {},
     }
 
     this.onChangeRRN1 = this.onChangeRRN1.bind(this);
@@ -35,6 +41,16 @@ class UserInfo extends Component {
             phone: data["phone"],
             first: data["first"],
             second: data["second"],
+          })
+        this.props
+          .getReserve(this.state.first, this.state.second)
+          .then((data) => {
+            this.setState(
+              {
+                firstInfo: data.data[0],
+                secondInfo: data.data[1],
+              }
+            )
           })
       })
       .catch((e) => {
@@ -104,7 +120,7 @@ class UserInfo extends Component {
                 </div>)
         : ""}
         <h2 className="page_title">내 정보</h2>
-        <div className="signup_container" style={{width: "800px", height: "580px"}}>
+        <div className="signup_container" style={{width: "800px", height: "600px"}}>
           <table className="signup_table">
             <tr>
               <th>이름</th>
@@ -115,19 +131,25 @@ class UserInfo extends Component {
               <td>{this.state.phone}</td>
             </tr>
             <tr>
-              <th>주민등록번호</th>
-              <td>
+              <th className="pb15">주민등록번호</th>
+              <td className="pb15">
                 <input type="text" name="RRN1" maxLength="6" style={{width:"80px"}} value={this.state.RRN1} onChange={this.onChangeRRN1}></input>
                 &nbsp;-&nbsp;<input type="password" name="RRN2" maxLength="7" style={{width:"90px"}} value={this.state.RRN2} onChange={this.onChangeRRN2}></input>
+                <span style={{fontSize: "12px", color: "red"}}> * 내 정보 변경 및 삭제 시 입력하세요.</span>
               </td>
             </tr>
             <tr>
               <th>1차 예약 정보</th>
-              <td className="reserve_table">{this.state.first ? "정보 가져오기" : "예약정보가 없습니다."}</td>
+              <td className="reserve_table">{this.state.first ? (
+                <ReserveInfo data={this.state.firstInfo}/>
+              ) : "예약정보가 없습니다."}</td>
             </tr>
             <tr>
               <th>2차 예약 정보</th>
-              <td className="reserve_table">{this.state.second ? "정보 가져오기" : "예약정보가 없습니다."}</td>
+              <td className="reserve_table">{this.state.second ? (
+                <ReserveInfo data={this.state.secondInfo}/>
+              ) : "예약정보가 없습니다."}</td>
+
             </tr>
           </table>
           <button className="signup_btn" style={{margin: "0 0 20px 190px"}} onClick={this.updateButton}>정보 수정</button>
@@ -138,4 +160,4 @@ class UserInfo extends Component {
   }
 }
 
-export default connect(null, {infoUser, authUser, deleteUser})(UserInfo);
+export default connect(null, {infoUser, authUser, deleteUser, getReserve})(UserInfo);
