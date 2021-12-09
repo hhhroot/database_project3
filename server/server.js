@@ -64,7 +64,7 @@ app.get("/members", function(req, res){
       if(err) console.error("err : " + err);
 
       res.json(rows);
-      connection.release;
+      connection.release();
     })
   })
 });
@@ -131,6 +131,7 @@ app.post("/auth", (req, res) => {
         else
           res.json({ message: "auth_seccess", code: 1});
       }
+      connection.release();
     })
   })
 });
@@ -145,6 +146,7 @@ app.delete("/members", auth, (req, res) => {
       } else {
         res.json({ message: "delete_success"});
       }
+      connection.release();
     })
   })
 })
@@ -170,6 +172,7 @@ app.put("/members", auth, (req, res) => {
 
         res.json({message: "update_success", token: token});
       }
+      connection.release();
     })
   })
 })
@@ -193,6 +196,7 @@ app.post("/reserve/hospital", (req, res) => {
       } else {
         res.json({message: "success", hospitalList: rows})
       }
+      connection.release();
     })
   })
 });
@@ -212,6 +216,7 @@ app.get('/reserve/hospital/vacine', (req, res) => {
       } else {
         res.json({message: "success", vacineList: rows})
       }
+      connection.release();
     })
   })
 });
@@ -233,6 +238,7 @@ app.post('/reserve', auth, (req, res) => {
       } else {
         res.json({message: "success"});
       }
+      connection.release();
     })
   })
 });
@@ -259,6 +265,7 @@ app.get("/reserve", auth, (req, res) => {
       } else {
         res.json({messsage: "success", data:rows});
       }
+      connection.release();
     })
   })
 });
@@ -278,6 +285,7 @@ app.put("/reserve/:reserve_id", auth, (req, res) => {
       } else {
         res.json({message: "success"});
       }
+      connection.release();
     })
   })
 });
@@ -293,6 +301,7 @@ app.delete("/reserve/:reserve_id", auth, (req, res) => {
       } else {
         res.json({message: "success"});
       }
+      connection.release();
     })
   })
 });
