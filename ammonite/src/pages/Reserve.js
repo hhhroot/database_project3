@@ -48,8 +48,9 @@ class Reserve extends Component {
   componentDidMount() {
     const today = this.state.date;
     
-    this.props.setStoreYearMonth(today.getFullYear(), today.getMonth())
-
+    this.props.setStoreYearMonth(today.getFullYear(), today.getMonth());
+    this.clearDatas();
+    
     // 1차 예약되있는지 확인
     this.props
       .infoUser()
