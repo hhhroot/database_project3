@@ -212,9 +212,6 @@ class Reserve extends Component {
         })
 
       this.clearDatas();
-      if (this.state.first) window.location.href = "/reserve";
-      else window.location.href = "/info";
-
     } else {
       this.setState({error: true});
     }
@@ -257,6 +254,18 @@ class Reserve extends Component {
             </div>
           </div>
         )}
+
+        {this.state.success ? (
+          <div className="popup_box">
+          <div className="signup_success_box">
+            <p className="signup_message">예약이 완료 되었습니다.</p>
+            <div style={{margin: "50px 0 0 60px"}}>
+              <Link to="/" className="signup_btn link_btn" style={{margin: "0 40px 0 0"}}>홈으로</Link>
+              <Link to="/info" className="signup_btn link_btn">내 정보</Link>
+            </div>
+          </div>
+        </div>
+        ) : ""}
         
         <h2 className="page_title">백신 예약{this.state.first ? " (1차)" : " (2차)"}</h2>
         <div className="main_container" style={{display: "block", paddingTop: "10px", paddingBottom: "30px"}}>

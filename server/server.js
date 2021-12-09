@@ -255,14 +255,47 @@ app.get("/reserve", auth, (req, res) => {
     connection.query(sqlForGetReserve, data, (err, rows) => {
       if (err) {
         console.log(err);
-        res,json({message: "database_error"});
+        res.json({message: "database_error"});
       } else {
         res.json({messsage: "success", data:rows});
       }
     })
   })
+});
 
-})
+app.put("/reserve/:reserve_id", auth, (req, res) => {
+  const data = [req.body.h_id, req.body.date, req.body.time, req.body.v_name, req.params.reserve_id];
+
+  pool.getConnection((err, connection) => {
+    const sqlForReserveUpdate = `update reserve
+    set h_id = ?, date = ?, time = ?, v_name = ?
+    where reserve_id = ?;`
+
+    connection.query(sqlForReserveUpdate, data, (err, rows) => {
+      if(err) {
+        console.log(err);
+        res.json({message: "database_error"});
+      } else {
+        res.json({message: "success"});
+      }
+    })
+  })
+});
+
+app.delete("/reserve/:reserve_id", auth, (req, res) => {
+  pool.getConnection((err, connection) => {
+    const sqlForReserveDelete = 'delete from reserve where reserve_id = ?;';
+
+    connection.query(sqlForReserveDelete, [req.params.reserve_id], (err, rows) => {
+      if(err) {
+        console.log(err);
+        res.json({message: "database_error"});
+      } else {
+        res.json({message: "success"});
+      }
+    })
+  })
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

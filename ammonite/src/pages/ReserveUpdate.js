@@ -5,8 +5,7 @@ import HospitalItem from "../components/HospitalItem"
 import VacineItem from "../components/VacineItem";
 import hangjungdong from "../datas/hangjungdong"
 import { connect } from "react-redux";
-import { setLocation3, setYearMonth, selectHospital, setDay, getHospitalList, reserve } from '../actions/reserve';
-import { infoUser } from "../actions/members"
+import { setLocation3, setYearMonth, selectHospital, setDay, getHospitalList, reserveUpdate } from '../actions/reserve';
 import { Link } from "react-router-dom";
 
 class ReserveUpdate extends Component {
@@ -44,31 +43,6 @@ class ReserveUpdate extends Component {
     const today = this.state.date;
     
     this.props.setStoreYearMonth(today.getFullYear(), today.getMonth())
-
-    // 1차 예약되있는지 확인
-    this.props
-      .infoUser()
-      // 1차만 했을 때
-      .then((data) => {
-        if (data["first"]){
-          this.setState({
-            first: false,
-          })
-        }
-        // 2차까지 예약 다 했을 때
-        if (data["second"]){
-          this.setState({
-            second: true,
-          })
-        }
-      })
-      .catch((e) => {
-        //login 안했을 때
-        this.setState({
-          login: false,
-        })
-        console.log(e)
-      });
   }
 
   getLastDateOfMonth(year, month) {
@@ -195,8 +169,10 @@ class ReserveUpdate extends Component {
 
       const number = this.state.first ? 1 : 2;
 
+      // 여기 변경
+
       this.props
-        .reserve(hospitalID, vacineName, vacineTime, date, number)
+        .reserveUpdate(window.location.href.split("/")[4], hospitalID, vacineName, vacineTime, date, number)
         .then((data) => {
           this.setState({
             success: true,
@@ -207,7 +183,6 @@ class ReserveUpdate extends Component {
         })
 
       this.clearDatas();
-      window.location.href = "/";
     } else {
       this.setState({error: true});
     }
@@ -216,19 +191,6 @@ class ReserveUpdate extends Component {
   render(){
     return(
       <div>
-        {this.state.second ? (
-          <div className="popup_box">
-          <div className="signup_success_box">
-            <p className="signup_message">이미 2차 백신까지 예약을 완료 하셨습니다.</p>
-            <div style={{margin: "50px 0 0 60px"}}>
-              <Link to="/" className="signup_btn link_btn" style={{margin: "0 40px 0 0"}}>홈으로</Link>
-              <Link to="/info" className="signup_btn link_btn">내 정보</Link>
-
-            </div>
-          </div>
-        </div>
-        ) : ""}
-
         {this.state.error ? (
           <div className="popup_box">
           <div className="signup_success_box">
@@ -239,19 +201,21 @@ class ReserveUpdate extends Component {
           </div>
         </div>
         ) : ""}
+        
+        {this.state.success ? (
+          <div className="popup_box">
+          <div className="signup_success_box">
+            <p className="signup_message">변경이 완료 되었습니다.</p>
+            <div style={{margin: "50px 0 0 60px"}}>
+              <Link to="/" className="signup_btn link_btn" style={{margin: "0 40px 0 0"}}>홈으로</Link>
+              <Link to="/info" className="signup_btn link_btn">내 정보</Link>
 
-        {this.state.login ? "" : (
-            <div className="popup_box">
-            <div className="signup_success_box">
-              <p className="signup_message">로그인되어 있지 않습니다.</p>
-              <div style={{margin: "50px 0 0 60px"}}>
-              <Link to="/login" className="signup_btn link_btn" style={{margin: "0 40px 0 90px"}}>로그인</Link>
-              </div>
             </div>
           </div>
-        )}
-        
-        <h2 className="page_title">백신 예약{this.state.first ? " (1차)" : " (2차)"}</h2>
+        </div>
+        ) : ""}
+
+        <h2 className="page_title">백신 예약 변경</h2>
         <div className="main_container" style={{display: "block", paddingTop: "10px", paddingBottom: "30px"}}>
           <div id="area">
             <div>
@@ -348,8 +312,7 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedHospital: (index) => dispatch(selectHospital(index)),
   setStoreDay: (value) => dispatch(setDay(value)),
   setStoreHospitalList: (name, date) => dispatch(getHospitalList(name, date)),
-  reserve: (hospitalID, vacineName, vacineTime, date, number) => dispatch(reserve(hospitalID, vacineName, vacineTime, date, number)),
-  infoUser: () => dispatch(infoUser()),
+  reserveUpdate: (reserve_num, hospitalID, vacineName, vacineTime, date, number) => dispatch(reserveUpdate(reserve_num, hospitalID, vacineName, vacineTime, date, number)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReserveUpdate);

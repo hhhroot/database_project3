@@ -1,6 +1,27 @@
 import React, { Component } from 'react'
+import { cancleReserve } from "../actions/reserve";
+import { connect } from "react-redux";
 
-export default class ReserveInfo extends Component {
+class ReserveInfo extends Component {
+  constructor(props){
+    super(props);
+
+    this.updateButton = this.updateButton.bind(this);
+    this.deleteButton = this.deleteButton.bind(this);
+  }
+
+  updateButton() {
+    window.location.href = `/reserve/${this.props.data.reserve_id}`
+  }
+
+  deleteButton() {
+    this.props
+      .cancleReserve(this.props.data.reserve_id)
+      .then(() => {
+        window.location.href = "/info";
+      });
+  }
+  
   render() {
     const date = new Date(this.props.data.date);
     const timeString_KR = date.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
@@ -25,10 +46,12 @@ export default class ReserveInfo extends Component {
           </table>
         </div>
         <div>
-          <button className="vacine_btn update">변경하기</button>
-          <button className="vacine_btn cancel">취소하기</button>
+          <button className="vacine_btn update" onClick={this.updateButton}>변경하기</button>
+          <button className="vacine_btn cancel" onClick={this.deleteButton}>취소하기</button>
         </div>
       </div>
     )
   }
 }
+
+export default connect(null, {cancleReserve})(ReserveInfo);

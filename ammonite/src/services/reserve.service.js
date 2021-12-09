@@ -16,8 +16,17 @@ class reserveDataService{
     return http.post("/reserve", datas);
   }
 
+  // 예약변경
+  reserveUpdate(reserve_id, datas) {
+    return http.put(`/reserve/${reserve_id}`, datas);
+  }
+
   getHospitalVacine(h_id, date) {
     return http.get(`/reserve/hospital/vacine?h_id=${h_id}&date=${date}`);
+  }
+
+  cancleReserve(reserve_id) {
+    return http.delete(`/reserve/${reserve_id}`);
   }
 }
 

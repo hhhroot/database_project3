@@ -7,3 +7,4 @@ export { default as UserInfo } from './UserInfo';
 export { default as VacineInfo } from './VacineInfo';
 export { default as ViewReserve } from './ViewReserve';
 export { default as UserUpdate } from './UserUpdate';
+export { default as ReserveUpdate } from './ReserveUpdate';

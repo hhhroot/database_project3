@@ -47,8 +47,8 @@ class UserInfo extends Component {
           .then((data) => {
             this.setState(
               {
-                firstInfo: data.data[0],
-                secondInfo: data.data[1],
+                firstInfo: data.data[0] ? data.data[0] : {},
+                secondInfo: data.data[1] ? data.data[1] : {},
               }
             )
           })

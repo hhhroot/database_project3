@@ -22,7 +22,7 @@ class Hospital extends Component {
     const className = this.props.selected ? "hospital hospital_selected" : "hospital";
     return (
       <div className={className} onClick={this.onClickItem}>
-        <span className="detail_page">+</span>
+        {/* <span className="detail_page">+</span> */}
         <div className="hospital_name">{this.props.name}</div>
         <div className="hospital_address">{this.props.address}</div>
       </div>
