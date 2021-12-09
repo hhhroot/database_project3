@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // API
+// 회원가입
 app.post("/members", (req, res) => {  
   const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
   const phone = req.body["phone1"] + "-" + req.body["phone2"] + "-" + req.body["phone3"];
@@ -69,6 +70,7 @@ app.get("/members", function(req, res){
   })
 });
 
+// 로그인
 app.post("/login", (req, res) => {
   const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
   
@@ -100,6 +102,7 @@ app.post("/login", (req, res) => {
   })
 })
 
+// 내 정보
 app.get("/info", auth, (req, res) => {
   const datas = [req.decoded.name, req.decoded.RRN]
   pool.getConnection((err, connection) => {
@@ -117,6 +120,7 @@ app.get("/info", auth, (req, res) => {
   })
 })
 
+// 유저 확인 (내 정보에서 삭제 및 변경할 때 사용 유저 확인하느라 사용)
 app.post("/auth", (req, res) => {
   const RRN = sha256(req.body["RRN1"] + "-" + req.body["RRN2"]);
   pool.getConnection((err, connection) => {
@@ -136,6 +140,8 @@ app.post("/auth", (req, res) => {
   })
 });
 
+
+// 유저 삭제
 app.delete("/members", auth, (req, res) => {
   pool.getConnection((err, connection) => {
     const sqlForDelete = "DELETE FROM user WHERE RRN=?";
@@ -151,6 +157,7 @@ app.delete("/members", auth, (req, res) => {
   })
 })
 
+// 정보 변경
 app.put("/members", auth, (req, res) => {
   const RRN = req.decoded.RRN;
   const phone = req.body["phone1"] + "-" + req.body["phone2"] + "-" + req.body["phone3"];
@@ -178,6 +185,7 @@ app.put("/members", auth, (req, res) => {
 })
 
 
+// 예약 가능한 병원 확인하기(지역, 병원id, 날짜, 백신이름 받음)
 // Reserve
 app.post("/reserve/hospital", (req, res) => {
   const data = [req.body.date, req.body.location3]
@@ -201,6 +209,7 @@ app.post("/reserve/hospital", (req, res) => {
   })
 });
 
+// 특정 병원에서 접종가능한 백신 리스트 받기
 app.get('/reserve/hospital/vacine', (req, res) => {
   const data = [req.query.h_id, req.query.date];
 
@@ -221,6 +230,7 @@ app.get('/reserve/hospital/vacine', (req, res) => {
   })
 });
 
+// 백신 예약하기
 app.post('/reserve', auth, (req, res) => {
   const data = [req.decoded.RRN, req.body.h_id, req.body.date, req.body.time, req.body.v_name, req.decoded.RRN];
   let number = 0;
@@ -243,6 +253,7 @@ app.post('/reserve', auth, (req, res) => {
   })
 });
 
+// 예약정보 받기
 app.get("/reserve", auth, (req, res) => {
   const data = [req.decoded.RRN, req.query.first, req.query.second];
 
@@ -270,6 +281,7 @@ app.get("/reserve", auth, (req, res) => {
   })
 });
 
+// 예약정보 수정하기
 app.put("/reserve/:reserve_id", auth, (req, res) => {
   const data = [req.body.h_id, req.body.date, req.body.time, req.body.v_name, req.params.reserve_id];
 
@@ -290,6 +302,7 @@ app.put("/reserve/:reserve_id", auth, (req, res) => {
   })
 });
 
+// 예약 삭제하기
 app.delete("/reserve/:reserve_id", auth, (req, res) => {
   pool.getConnection((err, connection) => {
     const sqlForReserveDelete = 'delete from reserve where reserve_id = ?;';
