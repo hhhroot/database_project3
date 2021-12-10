@@ -1,33 +1,33 @@
 .page_title {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
-  padding: 1rem 2rem;
-  background: #3b5998;
-  display: flex;
-  justify-content: space-between;
-  align-items: center
+    padding: 1rem 2rem;
+    background-color: darkslategray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
 }
 
 .header h1 {
-  color: #fff;
+    color: #fff;
 }
 
 .header select {
-  height: 30px;
-  width: 140px;
-  border-radius: 5px;
-  border: none;
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    border: none;
 }
 
 section {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .contents {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap : 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap : 2rem;
 }

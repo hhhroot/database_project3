@@ -1,3 +1,5 @@
+// 코로나 API 시각화
+
 import { Component } from "react";
 
 import './ViewReserve.css';
