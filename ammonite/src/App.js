@@ -14,7 +14,7 @@ class App extends Component {
       <Router>
         <Nav/>
         <Routes>
-          <Route exact path="/" element ={<Main/>}/> 
+          {/* <Route exact path="/" element ={<Main/>}/>  */}
           <Route exact path="/signup" element ={<SignUp/>}/> 
           <Route exact path="/login" element ={<Login/>}/> 
           <Route exact path="/reserve" element ={<Reserve/>}/> 
@@ -22,7 +22,7 @@ class App extends Component {
           <Route exact path="/transition" element ={<TransitionInfo/>}/> 
           <Route exact path="/info" element ={<UserInfo/>}/> 
           <Route exact path="/vacine" element ={<VacineInfo/>}/> 
-          <Route exact path="/transition_info" element ={<ViewReserve/>}/> 
+          <Route exact path="/" element ={<ViewReserve/>}/> 
           <Route exact path="/update" element = {<UserUpdate/>}/>
         </Routes>
         <Footer/>

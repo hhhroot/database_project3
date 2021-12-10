@@ -1,10 +1,20 @@
 import { Component } from "react";
 
+import './ViewReserve.css';
+import Header from './components/Header'
+import Contents from './components/Contents'
+
+
 class ViewReserve extends Component {
   render(){
     return(
       <div>
-        <h2 className="page_title">ViewReserve</h2>
+        <center>
+        <Header />
+        <Contents />
+        
+
+        </center>
       </div>
     )
   }
